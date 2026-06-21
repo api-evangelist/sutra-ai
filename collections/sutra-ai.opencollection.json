@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SUTRA API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Chat",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a chat completion (SUTRA-V2 multilingual)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.two.ai/v2/chat/completions",
+            "headers": [
+              { "name": "Content-Type", "value": "application/json" },
+              { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"model\": \"sutra-v2\",\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"आर्टिफिशियल इंटेलिजेंस क्या है?\" }\n  ],\n  \"max_tokens\": 1024,\n  \"temperature\": 0.7,\n  \"stream\": false\n}"
+            }
+          },
+          "docs": "Generates a model response using SUTRA-V2 across 50+ languages. Set stream to true and Accept: text/event-stream for Server-Sent Events."
+        },
+        {
+          "info": {
+            "name": "Create a chat completion (SUTRA-R0 reasoning)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.two.ai/v2/chat/completions",
+            "headers": [
+              { "name": "Content-Type", "value": "application/json" },
+              { "name": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"model\": \"sutra-r0\",\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"If Alice is taller than Bob, and Bob is taller than Carol, who is the tallest?\" }\n  ],\n  \"max_tokens\": 512,\n  \"temperature\": 0.3,\n  \"presence_penalty\": 0.6\n}"
+            }
+          },
+          "docs": "Structured multi-step reasoning using the SUTRA-R0 model via the same chat completions endpoint."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Models",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.two.ai/v2/models",
+            "headers": [
+              { "name": "Accept", "value": "application/json" }
+            ]
+          },
+          "docs": "Lists the SUTRA models currently available to the account (OpenAI-compatible list shape)."
+        }
+      ]
+    }
+  ]
+}

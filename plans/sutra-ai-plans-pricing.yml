@@ -1,0 +1,108 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: SUTRA (Two AI)
+providerId: sutra-ai
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- AI
+- LLM
+- Multilingual
+- Inference
+- Reasoning
+- Plans
+description: >-
+  SUTRA bills usage on a per-token basis through an OpenAI-compatible API.
+  Production access is arranged with Two AI (Numeric) - the docs direct
+  developers to contact Numeric for enterprise API access. A SUTRA for
+  Startups program has been promoted offering up to 1 billion free tokens.
+  SUTRA's efficient tokenizer reduces token consumption by roughly 3-5x for
+  non-English languages, lowering effective per-language cost. Specific
+  current per-model rates are not publicly reconciled in this artifact.
+notes: >-
+  Historically published SUTRA tiers referenced SUTRA-Pro / SUTRA-Online at
+  about $1.00 per 1M tokens (input and output) and SUTRA-Light at about $0.75
+  per 1M tokens. Current SUTRA-V2 / SUTRA-R0 rates were not confirmed on a
+  public pricing page at capture time - reconciled is false. Verify all rates
+  directly with Two AI before relying on them.
+sources:
+- https://www.two.ai/sutra
+- https://docs.two.ai/docs/getting-started
+- https://docs.two.ai/docs/models/sutra-v2-guide
+plans:
+- id: sutra-pay-as-you-go
+  name: Pay-as-you-go (Usage)
+  type: usage
+  description: >-
+    Token-metered usage across the SUTRA chat completions and reasoning
+    models via the OpenAI-compatible API.
+  entries:
+  - label: SUTRA-V2 (Multilingual Chat)
+    name: sutra_v2
+    type: usage
+    metric: tokens
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1000000
+    price: per-token (contact Two AI; not publicly reconciled)
+    userMultiplied: false
+  - label: SUTRA-R0 (Reasoning)
+    name: sutra_r0
+    type: usage
+    metric: tokens
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1000000
+    price: per-token (contact Two AI; not publicly reconciled)
+    userMultiplied: false
+  elements:
+  - name: Chat Completions
+  - name: Reasoning
+  - name: Multilingual (50+ languages)
+- id: sutra-startups
+  name: SUTRA for Startups
+  type: usage
+  description: >-
+    Promotional program offering qualifying startups a large block of free
+    SUTRA tokens (up to 1 billion) to build and prototype with.
+  entries:
+  - label: Startup Free Token Grant
+    name: startup_grant
+    type: free
+    metric: tokens
+    limit: 1000000000
+    timeFrame: program
+    geo: global
+    unit: 1
+    price: free (program-qualified)
+    userMultiplied: false
+  elements:
+  - name: Chat Completions
+  - name: Reasoning
+- id: sutra-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Enterprise API access arranged directly with Two AI (Numeric), with
+    negotiated volume pricing, support, and deployment terms.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact Two AI
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: Enterprise Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,129 @@
+{
+  "info": {
+    "_postman_id": "b1f2c3d4-5a6b-47c8-9d0e-1f2a3b4c5d6e",
+    "name": "SUTRA API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "OpenAI-compatible REST API for the SUTRA family of multilingual large language models from Two AI (Numeric). The documented base URL is https://api.numeric.tech/v2 and is also reachable as https://api.two.ai/v2.\n\nContact: Two AI (Numeric) - https://docs.two.ai/docs",
+      "type": "text/plain"
+    }
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.two.ai/v2",
+      "type": "string"
+    },
+    {
+      "key": "bearerToken",
+      "value": "YOUR_SUTRA_API_KEY",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Chat",
+      "description": "OpenAI-compatible chat completions across SUTRA models (sutra-v2, sutra-r0).",
+      "item": [
+        {
+          "name": "Create a chat completion (SUTRA-V2 multilingual)",
+          "request": {
+            "name": "Create a chat completion (SUTRA-V2 multilingual)",
+            "description": {
+              "content": "Generates a model response for the given conversation using SUTRA-V2. Set stream to true and Accept: text/event-stream to receive Server-Sent Events.",
+              "type": "text/plain"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/chat/completions",
+              "host": ["{{baseUrl}}"],
+              "path": ["chat", "completions"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"sutra-v2\",\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"आर्टिफिशियल इंटेलिजेंस क्या है?\" }\n  ],\n  \"max_tokens\": 1024,\n  \"temperature\": 0.7,\n  \"stream\": false\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a chat completion (SUTRA-R0 reasoning)",
+          "request": {
+            "name": "Create a chat completion (SUTRA-R0 reasoning)",
+            "description": {
+              "content": "Structured multi-step reasoning using the SUTRA-R0 model via the same chat completions endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/chat/completions",
+              "host": ["{{baseUrl}}"],
+              "path": ["chat", "completions"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"sutra-r0\",\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"If Alice is taller than Bob, and Bob is taller than Carol, who is the tallest?\" }\n  ],\n  \"max_tokens\": 512,\n  \"temperature\": 0.3,\n  \"presence_penalty\": 0.6\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Models",
+      "description": "List the SUTRA models available to the authenticated account.",
+      "item": [
+        {
+          "name": "List models",
+          "request": {
+            "name": "List models",
+            "description": {
+              "content": "Lists the SUTRA models currently available to the account (OpenAI-compatible list shape).",
+              "type": "text/plain"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/models",
+              "host": ["{{baseUrl}}"],
+              "path": ["models"],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "method": "GET",
+            "auth": null,
+            "body": {}
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

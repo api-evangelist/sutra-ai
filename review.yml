@@ -1,0 +1,66 @@
+aid: sutra-ai
+name: SUTRA (Two AI)
+review:
+  question: Does SUTRA (Two AI) expose a documented public WebSocket API?
+  answer: false
+  date: '2026-06-21'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: true
+  asyncapiScopeNote: |
+    Per API Evangelist scope, HTTP Server-Sent Events (SSE) is in-scope for
+    AsyncAPI modeling. An AsyncAPI 2.6 document was created at
+    asyncapi/sutra-ai-asyncapi.yml describing the chat completion SSE stream
+    (POST /chat/completions with stream=true and Accept: text/event-stream).
+    No WebSocket surface was modeled because none is documented.
+findings:
+  summary: |
+    SUTRA (Two AI) does not publish a documented public WebSocket API. The
+    SUTRA platform is OpenAI-compatible and exposes only REST (HTTPS)
+    endpoints under https://api.numeric.tech/v2 (also reachable as
+    https://api.two.ai/v2). Streaming for chat completions is delivered as
+    HTTP Server-Sent Events (SSE) via the `stream: true` parameter together
+    with an `Accept: text/event-stream` header on the REST endpoint; SSE is a
+    one-way HTTP streaming transport and is not WebSocket. No realtime,
+    bidirectional, or audio WebSocket (ws:// or wss://) endpoint is documented.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.two.ai/v2
+      documented: true
+    - protocol: SSE
+      scheme: https
+      note: Server-Sent Events delivered over the same REST chat completions endpoint when stream=true. Not WebSocket.
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in SUTRA's docs (getting-started, model guides) as of the review date.
+  endpointsConfirmedRest:
+    - POST https://api.two.ai/v2/chat/completions
+    - GET  https://api.two.ai/v2/models
+  models:
+    - sutra-v2
+    - sutra-r0
+  notes: |
+    Documented base URL in the SUTRA guides is https://api.numeric.tech/v2;
+    api.two.ai/v2 is used as the canonical host in this catalog. Production
+    API access is arranged by contacting Two AI (Numeric).
+sources:
+  - url: https://docs.two.ai/docs/getting-started
+    type: Documentation
+    note: Lists OpenAI-compatible base URL, Bearer auth, and POST /chat/completions; SSE via stream=true and Accept text/event-stream.
+  - url: https://docs.two.ai/docs/models/sutra-v2-guide
+    type: APIReference
+    note: SUTRA-V2 multilingual chat; streaming example sets stream=true. All HTTPS REST.
+  - url: https://docs.two.ai/docs/models/sutra-r0-guide
+    type: Documentation
+    note: SUTRA-R0 reasoning via the same /chat/completions endpoint. No WebSocket.
+actions:
+  asyncapiPath: asyncapi/sutra-ai-asyncapi.yml
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Under the SSE-in-scope policy, an
+    AsyncAPI 2.6 document was authored for the chat completion SSE stream,
+    with HTTP+SSE transport documented explicitly throughout (server
+    protocol, channel bindings, info.x-transport-notes) so SSE is never
+    misrepresented as WebSocket.

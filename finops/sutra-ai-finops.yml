@@ -1,0 +1,86 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: SUTRA (Two AI)
+providerId: sutra-ai
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- AI
+- LLM
+- Multilingual
+- Inference
+- Reasoning
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of SUTRA (Two AI) spend. SUTRA bills usage-based per-token rates
+  for chat completions (SUTRA-V2) and reasoning (SUTRA-R0) through an
+  OpenAI-compatible API. SUTRA's efficient tokenizer reduces token consumption
+  by roughly 3-5x for non-English languages, which directly lowers per-request
+  cost for multilingual workloads. Specific per-model rates are arranged with
+  Two AI and are not publicly reconciled here.
+notes: >-
+  Per-model rates are not published on a public pricing page at capture time;
+  verify with Two AI during reconciliation. Token-efficiency gains for
+  non-English languages should be modeled when forecasting spend.
+sources:
+- https://www.two.ai/sutra
+- https://docs.two.ai/docs/getting-started
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Two AI
+serviceCategory: AI and Machine Learning
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: SUTRA
+  ServiceCategory: AI and Machine Learning
+  ProviderName: Two AI
+  PublisherName: Two AI
+  InvoiceIssuerName: Two AI
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: input_tokens
+  description: Tokens sent in chat completions / reasoning requests, billed per 1M tokens per model.
+  unit: tokens
+  aggregation: sum
+  dimensions:
+  - account
+  - model
+  - api
+- name: output_tokens
+  description: Tokens generated, billed per 1M tokens per model.
+  unit: tokens
+  aggregation: sum
+  dimensions:
+  - account
+  - model
+  - api
+principles:
+- name: Visibility
+  description: Track per-model token burn across SUTRA-V2 and SUTRA-R0; inspect usage per API key.
+- name: Allocation
+  description: Tag API keys per workload/team and map to internal cost centers.
+- name: Optimization
+  description: Exploit SUTRA's 3-5x non-English token efficiency; route reasoning-heavy work to SUTRA-R0 only when needed; use SUTRA-V2 for general multilingual chat.
+- name: Accountability
+  description: Assign owners per project/key; review token spend monthly against budget.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,57 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: SUTRA (Two AI)
+providerId: sutra-ai
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- AI
+- LLM
+- Multilingual
+- Inference
+- Reasoning
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  The SUTRA API is OpenAI-compatible and enforces per-account limits on
+  inference. Because the public documentation directs developers to contact
+  Two AI (Numeric) for API access, specific per-account RPM (requests per
+  minute) and TPM (tokens per minute) limits are not published and are not
+  reconciled in this artifact. As with other OpenAI-compatible services,
+  expect HTTP 429 responses when limits are exceeded.
+notes: >-
+  Confirm per-account and per-model RPM / TPM ceilings directly with Two AI on
+  reconciliation; limits likely vary by plan, startup-program status, and
+  enterprise agreement.
+sources:
+- https://docs.two.ai/docs/getting-started
+- https://docs.two.ai/docs/models/sutra-v2-guide
+responseCodes:
+  throttled: 429
+limits:
+- name: Requests Per Minute (RPM)
+  scope: account
+  metric: requests
+  limit: see provider (not published)
+  notes: Per-account RPM; not publicly documented.
+- name: Tokens Per Minute (TPM)
+  scope: account
+  metric: tokens
+  limit: see provider (not published)
+  notes: Per-account TPM; not publicly documented.
+- name: Concurrent Requests
+  scope: account
+  metric: requests
+  limit: see provider (not published)
+  notes: Concurrency ceiling varies by plan/agreement.
+policies:
+- name: Tiered Limits
+  description: Limits vary by plan, startup-program status, and enterprise agreements.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
