@@ -85,6 +85,10 @@ apis:
   description: Lists the SUTRA models available to an account (e.g. sutra-v2,
     sutra-r0) via the OpenAI-compatible models endpoint.
 common:
+- type: DomainSecurity
+  url: security/sutra-ai-domain-security.yml
+- type: Authentication
+  url: authentication/sutra-ai-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/sutra-dev
 - type: LinkedIn

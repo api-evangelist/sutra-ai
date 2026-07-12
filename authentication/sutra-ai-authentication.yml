@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/sutra-ai-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: 'Provide your SUTRA API key as a Bearer token in the Authorization header - Authorization:
+    Bearer <YOUR_SUTRA_API_KEY>.'
+  sources:
+  - openapi/sutra-ai-openapi.yml
