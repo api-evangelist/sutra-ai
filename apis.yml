@@ -85,6 +85,8 @@ apis:
   description: Lists the SUTRA models available to an account (e.g. sutra-v2,
     sutra-r0) via the OpenAI-compatible models endpoint.
 common:
+- type: AgenticAccess
+  url: agentic-access/sutra-ai-agentic-access.yml
 - type: DomainSecurity
   url: security/sutra-ai-domain-security.yml
 - type: Authentication
