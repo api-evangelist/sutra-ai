@@ -1,0 +1,68 @@
+openapi: 3.0.1
+info:
+  title: SUTRA Chat Models API
+  description: OpenAI-compatible REST API for the SUTRA family of multilingual large language models from Two AI (Numeric). The SUTRA-V2 model handles instruction-following and conversational tasks across 50+ languages, and the SUTRA-R0 model provides advanced multi-step reasoning. The same chat/completions endpoint serves both models. The documented base URL is https://api.numeric.tech/v2 and is also reachable as https://api.two.ai/v2; the OpenAI SDK can be pointed at this base_url directly.
+  termsOfService: https://www.two.ai
+  contact:
+    name: Two AI (Numeric)
+    url: https://docs.two.ai/docs
+  version: '2.0'
+servers:
+- url: https://api.two.ai/v2
+  description: SUTRA API (two.ai)
+- url: https://api.numeric.tech/v2
+  description: SUTRA API (documented Numeric host)
+security:
+- bearerAuth: []
+tags:
+- name: Models
+  description: List available SUTRA models.
+paths:
+  /models:
+    get:
+      operationId: listModels
+      tags:
+      - Models
+      summary: List models
+      description: Lists the SUTRA models currently available to the authenticated account, following the OpenAI models list shape.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListModelsResponse'
+        '401':
+          description: Unauthorized - missing or invalid API key.
+components:
+  schemas:
+    Model:
+      type: object
+      properties:
+        id:
+          type: string
+          example: sutra-v2
+        object:
+          type: string
+          example: model
+        created:
+          type: integer
+          format: int64
+        owned_by:
+          type: string
+          example: two-ai
+    ListModelsResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          example: list
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Model'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Provide your SUTRA API key as a Bearer token in the Authorization header - Authorization: Bearer <YOUR_SUTRA_API_KEY>.'
