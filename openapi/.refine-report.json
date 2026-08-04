@@ -1,0 +1,16 @@
+{
+  "provider": "sutra-ai",
+  "sources": [
+    "sutra-ai-chat-api-openapi.yml",
+    "sutra-ai-models-api-openapi.yml"
+  ],
+  "outputs": [
+    "sutra-ai-chat-api-openapi.yml",
+    "sutra-ai-models-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

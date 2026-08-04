@@ -1,0 +1,250 @@
+openapi: 3.0.1
+info:
+  title: SUTRA API
+  description: >-
+    OpenAI-compatible REST API for the SUTRA family of multilingual large
+    language models from Two AI (Numeric). The SUTRA-V2 model handles
+    instruction-following and conversational tasks across 50+ languages, and
+    the SUTRA-R0 model provides advanced multi-step reasoning. The same
+    chat/completions endpoint serves both models. The documented base URL is
+    https://api.numeric.tech/v2 and is also reachable as https://api.two.ai/v2;
+    the OpenAI SDK can be pointed at this base_url directly.
+  termsOfService: https://www.two.ai
+  contact:
+    name: Two AI (Numeric)
+    url: https://docs.two.ai/docs
+  version: '2.0'
+servers:
+  - url: https://api.two.ai/v2
+    description: SUTRA API (two.ai)
+  - url: https://api.numeric.tech/v2
+    description: SUTRA API (documented Numeric host)
+security:
+  - bearerAuth: []
+tags:
+  - name: Chat
+    description: OpenAI-compatible chat completions across SUTRA models.
+  - name: Models
+    description: List available SUTRA models.
+paths:
+  /chat/completions:
+    post:
+      operationId: createChatCompletion
+      tags:
+        - Chat
+      summary: Create a chat completion
+      description: >-
+        Generates a model response for the given conversation. Compatible with
+        the OpenAI Chat Completions specification. Set model to a SUTRA model
+        such as sutra-v2 (multilingual instruction/conversation) or sutra-r0
+        (reasoning). Set stream to true to receive incremental Server-Sent
+        Events; include the Accept: text/event-stream header when streaming.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChatCompletionRequest'
+            examples:
+              multilingual:
+                summary: Multilingual chat with SUTRA-V2
+                value:
+                  model: sutra-v2
+                  messages:
+                    - role: user
+                      content: आर्टिफिशियल इंटेलिजेंस क्या है?
+                  max_tokens: 1024
+                  temperature: 0.7
+              reasoning:
+                summary: Structured reasoning with SUTRA-R0
+                value:
+                  model: sutra-r0
+                  messages:
+                    - role: user
+                      content: >-
+                        If Alice is taller than Bob, and Bob is taller than
+                        Carol, who is the tallest?
+                  max_tokens: 512
+                  temperature: 0.3
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateChatCompletionResponse'
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/ChatCompletionChunk'
+        '401':
+          description: Unauthorized - missing or invalid API key.
+        '429':
+          description: Too Many Requests - rate limit exceeded.
+  /models:
+    get:
+      operationId: listModels
+      tags:
+        - Models
+      summary: List models
+      description: >-
+        Lists the SUTRA models currently available to the authenticated
+        account, following the OpenAI models list shape.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListModelsResponse'
+        '401':
+          description: Unauthorized - missing or invalid API key.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Provide your SUTRA API key as a Bearer token in the Authorization
+        header - Authorization: Bearer <YOUR_SUTRA_API_KEY>.
+  schemas:
+    CreateChatCompletionRequest:
+      type: object
+      required:
+        - model
+        - messages
+      properties:
+        model:
+          type: string
+          description: SUTRA model ID (e.g. sutra-v2, sutra-r0).
+          example: sutra-v2
+        messages:
+          type: array
+          description: A list of messages comprising the conversation so far.
+          items:
+            $ref: '#/components/schemas/ChatMessage'
+        max_tokens:
+          type: integer
+          description: Maximum number of tokens to generate.
+          default: 1024
+        temperature:
+          type: number
+          format: float
+          description: Sampling temperature between 0 and 1.
+          default: 0.7
+        stream:
+          type: boolean
+          description: >-
+            If true, partial message deltas are sent as Server-Sent Events.
+          default: false
+        presence_penalty:
+          type: number
+          format: float
+          description: >-
+            Penalizes new tokens based on whether they appear in the text so
+            far, reducing repetition.
+    ChatMessage:
+      type: object
+      required:
+        - role
+        - content
+      properties:
+        role:
+          type: string
+          enum:
+            - system
+            - user
+            - assistant
+          description: The role of the message author.
+        content:
+          type: string
+          description: The contents of the message.
+    CreateChatCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          example: chat.completion
+        created:
+          type: integer
+          format: int64
+        model:
+          type: string
+          example: sutra-v2
+        choices:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatCompletionChoice'
+        usage:
+          $ref: '#/components/schemas/Usage'
+    ChatCompletionChoice:
+      type: object
+      properties:
+        index:
+          type: integer
+        message:
+          $ref: '#/components/schemas/ChatMessage'
+        finish_reason:
+          type: string
+          example: stop
+    ChatCompletionChunk:
+      type: object
+      description: A streamed chunk of a chat completion (Server-Sent Events).
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          example: chat.completion.chunk
+        created:
+          type: integer
+          format: int64
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              delta:
+                $ref: '#/components/schemas/ChatMessage'
+              finish_reason:
+                type: string
+                nullable: true
+    Usage:
+      type: object
+      properties:
+        prompt_tokens:
+          type: integer
+        completion_tokens:
+          type: integer
+        total_tokens:
+          type: integer
+    ListModelsResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          example: list
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Model'
+    Model:
+      type: object
+      properties:
+        id:
+          type: string
+          example: sutra-v2
+        object:
+          type: string
+          example: model
+        created:
+          type: integer
+          format: int64
+        owned_by:
+          type: string
+          example: two-ai
