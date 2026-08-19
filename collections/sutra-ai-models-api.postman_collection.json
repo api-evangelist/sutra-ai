@@ -1,0 +1,158 @@
+{
+  "item": [
+    {
+      "id": "9e29167d-0e19-48e8-8159-0745654d1e80",
+      "name": "Models",
+      "description": {
+        "content": "List available SUTRA models.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ac68e8f6-5785-4274-a577-58b06d964135",
+          "name": "List models",
+          "request": {
+            "name": "List models",
+            "description": {
+              "content": "Lists the SUTRA models currently available to the authenticated account, following the OpenAI models list shape.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "models"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "189d5d32-8b7d-4723-bcd0-75a05c34015b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"id\": \"sutra-v2\",\n      \"object\": \"model\",\n      \"created\": 2557,\n      \"owned_by\": \"two-ai\"\n    },\n    {\n      \"id\": \"sutra-v2\",\n      \"object\": \"model\",\n      \"created\": 4702,\n      \"owned_by\": \"two-ai\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec780872-afde-486e-bcc1-27f87bf0fa74",
+              "name": "Unauthorized - missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.two.ai/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "686a6175-0052-4a09-89d8-7775993aa752",
+    "name": "SUTRA Chat Models API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "OpenAI-compatible REST API for the SUTRA family of multilingual large language models from Two AI (Numeric). The SUTRA-V2 model handles instruction-following and conversational tasks across 50+ languages, and the SUTRA-R0 model provides advanced multi-step reasoning. The same chat/completions endpoint serves both models. The documented base URL is https://api.numeric.tech/v2 and is also reachable as https://api.two.ai/v2; the OpenAI SDK can be pointed at this base_url directly.\n\nContact Support:\n Name: Two AI (Numeric)",
+      "type": "text/plain"
+    }
+  }
+}

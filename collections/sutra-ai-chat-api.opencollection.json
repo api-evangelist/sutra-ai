@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SUTRA Chat API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Chat",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a chat completion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.two.ai/v2/chat/completions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a model response for the given conversation. Compatible with the OpenAI Chat Completions specification. Set model to a SUTRA model such as sutra-v2 (multilingual instruction/conversation) or sutra-r0 (reasoning). Set stream to true to receive incremental Server-Sent Events; include the Accept: text/event-stream header when streaming."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
