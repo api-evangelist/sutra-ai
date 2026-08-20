@@ -22,6 +22,12 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/sutra-ai.png
 tags:
+- Artificial Intelligence
+- LLM
+- Multilingual
+- Inference
+- Reasoning
+tags_raw:
 - AI
 - LLM
 - Multilingual
