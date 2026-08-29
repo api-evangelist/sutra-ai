@@ -7,6 +7,18 @@ description: SUTRA is a family of multilingual large language models from Two AI
   Korean, Arabic, and Japanese. The SUTRA API is OpenAI-compatible and serves the
   SUTRA-V2 instruction/conversation model and the SUTRA-R0 reasoning model through
   a single Bearer-authenticated REST interface.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: enterprise
   onboarding: self-serve
