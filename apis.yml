@@ -41,6 +41,7 @@ tags:
 - Inference
 - Reasoning
 - Real-Time
+- Foundation Models
 tags_raw:
 - AI
 - LLM
@@ -48,6 +49,7 @@ tags_raw:
 - Inference
 - Reasoning
 - Real-Time
+- Foundation Models
 created: '2026-06-21'
 modified: '2026-06-21'
 specificationVersion: '0.23'
