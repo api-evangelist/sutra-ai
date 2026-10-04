@@ -54,16 +54,16 @@ created: '2026-06-21'
 modified: '2026-06-21'
 specificationVersion: '0.23'
 apis:
-- aid: sutra-ai:sutra-ai-chat-api
-  name: SUTRA (Two AI) Chat API
-  description: OpenAI-compatible chat completions across SUTRA models.
+- aid: sutra-ai:sutra-ai-models-api
+  name: SUTRA (Two AI) Models API
+  description: List available SUTRA models.
   humanURL: https://docs.two.ai/docs/getting-started
   baseURL: https://api.two.ai/v2
   tags:
-  - Chat
+  - Models
   properties:
   - type: OpenAPI
-    url: openapi/sutra-ai-chat-api-openapi.yml
+    url: openapi/sutra-ai-models-api-openapi.yml
   - type: Documentation
     url: https://docs.two.ai/docs/getting-started
   - type: APIReference
@@ -76,16 +76,16 @@ apis:
     url: collections/sutra-ai.opencollection.json
   - type: Documentation
     url: https://docs.two.ai/docs/models/sutra-r0-guide
-- aid: sutra-ai:sutra-ai-models-api
-  name: SUTRA (Two AI) Models API
-  description: List available SUTRA models.
+- aid: sutra-ai:sutra-ai-chat-completions-api
+  name: SUTRA (Two AI) Chat Completions API
+  description: OpenAI-compatible chat completions across SUTRA models.
   humanURL: https://docs.two.ai/docs/getting-started
   baseURL: https://api.two.ai/v2
   tags:
-  - Models
+  - Chat Completions
   properties:
   - type: OpenAPI
-    url: openapi/sutra-ai-models-api-openapi.yml
+    url: openapi/sutra-ai-chat-completions-api-openapi.yml
   - type: Documentation
     url: https://docs.two.ai/docs/getting-started
   - type: APIReference

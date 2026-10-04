@@ -15,14 +15,14 @@ servers:
 security:
 - bearerAuth: []
 tags:
-- name: Chat
+- name: Chat Completions
   description: OpenAI-compatible chat completions across SUTRA models.
 paths:
   /chat/completions:
     post:
       operationId: createChatCompletion
       tags:
-      - Chat
+      - Chat Completions
       summary: Create a chat completion
       description: 'Generates a model response for the given conversation. Compatible with the OpenAI Chat Completions specification. Set model to a SUTRA model such as sutra-v2 (multilingual instruction/conversation) or sutra-r0 (reasoning). Set stream to true to receive incremental Server-Sent Events; include the Accept: text/event-stream header when streaming.'
       requestBody:
@@ -82,26 +82,15 @@ components:
         content:
           type: string
           description: The contents of the message.
-    CreateChatCompletionResponse:
+    Usage:
       type: object
       properties:
-        id:
-          type: string
-        object:
-          type: string
-          example: chat.completion
-        created:
+        prompt_tokens:
           type: integer
-          format: int64
-        model:
-          type: string
-          example: sutra-v2
-        choices:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChatCompletionChoice'
-        usage:
-          $ref: '#/components/schemas/Usage'
+        completion_tokens:
+          type: integer
+        total_tokens:
+          type: integer
     CreateChatCompletionRequest:
       type: object
       required:
@@ -134,25 +123,26 @@ components:
           type: number
           format: float
           description: Penalizes new tokens based on whether they appear in the text so far, reducing repetition.
-    Usage:
+    CreateChatCompletionResponse:
       type: object
       properties:
-        prompt_tokens:
-          type: integer
-        completion_tokens:
-          type: integer
-        total_tokens:
-          type: integer
-    ChatCompletionChoice:
-      type: object
-      properties:
-        index:
-          type: integer
-        message:
-          $ref: '#/components/schemas/ChatMessage'
-        finish_reason:
+        id:
           type: string
-          example: stop
+        object:
+          type: string
+          example: chat.completion
+        created:
+          type: integer
+          format: int64
+        model:
+          type: string
+          example: sutra-v2
+        choices:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatCompletionChoice'
+        usage:
+          $ref: '#/components/schemas/Usage'
     ChatCompletionChunk:
       type: object
       description: A streamed chunk of a chat completion (Server-Sent Events).
@@ -180,6 +170,16 @@ components:
                 type:
                 - string
                 - 'null'
+    ChatCompletionChoice:
+      type: object
+      properties:
+        index:
+          type: integer
+        message:
+          $ref: '#/components/schemas/ChatMessage'
+        finish_reason:
+          type: string
+          example: stop
   securitySchemes:
     bearerAuth:
       type: http
